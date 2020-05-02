@@ -8,9 +8,12 @@ namespace VMC_Websocket_OBS
 {
     class OBS
     {
-        public void Start()
+        public void Start(string adr,string pass)
         {
-
+        }
+        public void Stop()
+        {
+            throw new NotImplementedException();
         }
     }
 }
