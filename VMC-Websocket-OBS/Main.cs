@@ -23,7 +23,7 @@ namespace VMC_Websocket_OBS
         //起動～終了処理
         public void Process() {
 
-            Console.WriteLine("### VMC-Websocket-OBS v0.00");
+            Console.WriteLine("### VMC-Websocket-OBS v0.01");
 
             try
             {
@@ -32,7 +32,7 @@ namespace VMC_Websocket_OBS
                 Connect();
 
                 //ユーザーの終了操作を待機
-                Console.WriteLine("### Press ENTER key to EXIT");
+                Console.WriteLine("### Press ENTER key to stop program");
                 Console.ReadLine();
             }
             catch (Exception e)
@@ -42,6 +42,9 @@ namespace VMC_Websocket_OBS
 
             Console.WriteLine("### EXIT");
             Disconnect();
+
+            Console.WriteLine("### Press ENTER key to close window");
+            Console.ReadLine();
         }
 
         //JSON設定ファイルを読み込む
@@ -93,6 +96,9 @@ namespace VMC_Websocket_OBS
                 Console.WriteLine("# Callback : " + e);
             }
             System.Environment.Exit(-1);
+
+            Console.WriteLine("### Press ENTER key to close window");
+            Console.ReadLine();
         }
 
         //VMCからのMessageを処理する
