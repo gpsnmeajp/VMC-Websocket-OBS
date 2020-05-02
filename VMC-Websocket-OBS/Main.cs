@@ -118,10 +118,10 @@ namespace VMC_Websocket_OBS
             catch (Exception e) {
                 Console.WriteLine("# Callback : " + e);
             }
-            System.Environment.Exit(-1);
 
             Console.WriteLine("### Press ENTER key to close window");
             Console.ReadLine();
+            System.Environment.Exit(-1);
         }
 
         //VMCからのMessageを処理する
