@@ -2,7 +2,7 @@
 [VMCProtocol](https://sh-akira.github.io/VirtualMotionCaptureProtocol/)を用いてバーチャルモーションキャプチャーの状態を取得し、  
 Websocketを用いてOBSを制御するソフトウェア
 
-**[ダウンロード](https://github.com/gpsnmeajp/VMC-Websocket-OBS/releases)
+**[ダウンロード](https://github.com/gpsnmeajp/VMC-Websocket-OBS/releases)**
 
 ## 現在利用可能な機能
 - キャリブレーションを開始した際と完了時にOBSのシーンを切り替える(Tポーズ写り対策)
