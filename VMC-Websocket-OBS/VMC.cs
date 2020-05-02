@@ -12,6 +12,7 @@ namespace VMC_Websocket_OBS
     {
         OscReceiver oscReceiver = null;
         Thread thread = null;
+        //受信待受開始
         public void Start(int port)
         {
             //受信待受
@@ -21,13 +22,20 @@ namespace VMC_Websocket_OBS
             //受信処理スレッド
             thread = new Thread(new ThreadStart(ReceiveThread));
             thread.Start();
+
+            //例外は上位に打ち上げる
         }
 
+        //受信待受停止
         public void Stop()
         {
-            throw new NotImplementedException();
+            //待受停止
+            oscReceiver.Close();
+            //Thread終了を待機
+            thread.Join();
         }
 
+        //受信Thread
         private void ReceiveThread()
         {
             try
@@ -52,6 +60,7 @@ namespace VMC_Websocket_OBS
                 Console.WriteLine("# ReceiveThread : " + e);
             }
         }
+        //パケットを処理して、bundleとMessageに振り分け
         private void ProcessPacket(OscPacket packet)
         {
             switch (packet)
@@ -69,6 +78,7 @@ namespace VMC_Websocket_OBS
                     break;
             }
         }
+        //bundleを分解してMessageに
         private void ProcessBundle (OscBundle bundle)
         {
             //bundleを分解してMessageにする
@@ -86,6 +96,7 @@ namespace VMC_Websocket_OBS
                 }
             }
         }
+        //Messageを処理
         private void ProcessMessage(OscMessage message)
         {
             Console.WriteLine("ProcessMessage : " + message);
