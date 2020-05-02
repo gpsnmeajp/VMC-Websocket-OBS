@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +22,12 @@ namespace VMC_Websocket_OBS
 
             try
             {
+                Console.WriteLine("# Connecting to OBS Websocket...");
                 obs.Start(adr, pass);
-                vmc.Start(port);
+
+                Console.WriteLine("# Start standby for VMC Protocol");
+                vmc.Start(port,obs);
+
                 Console.WriteLine("### Press ENTER key to EXIT");
                 Console.ReadLine();
             }

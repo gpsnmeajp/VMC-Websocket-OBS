@@ -12,9 +12,13 @@ namespace VMC_Websocket_OBS
     {
         OscReceiver oscReceiver = null;
         Thread thread = null;
+
+        OBS obs;
         //受信待受開始
-        public void Start(int port)
+        public void Start(int port, OBS obs)
         {
+            this.obs = obs;
+
             //受信待受
             oscReceiver = new OscReceiver(port);
             oscReceiver.Connect();
@@ -97,9 +101,31 @@ namespace VMC_Websocket_OBS
             }
         }
         //Messageを処理
+        int old_calibration_state = -1;
         private void ProcessMessage(OscMessage message)
         {
-            Console.WriteLine("ProcessMessage : " + message);
+            //Console.WriteLine("ProcessMessage : " + message);
+            if (message.Address == "/VMC/Ext/OK") {
+                if (message.Count >= 3 && message[1] is int)
+                {
+                    int calibration_state = (int)message[1];
+                    if (old_calibration_state != calibration_state) {
+                        Console.WriteLine("# calibration_state changed " + old_calibration_state + "->" + calibration_state);
+                        old_calibration_state = calibration_state;
+                        if (calibration_state == 3)
+                        {
+                            Console.WriteLine("Scene1");
+                            obs.SetScene("Scene1");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Scene2");
+                            obs.SetScene("Scene2");
+                        }
+                    }
+                }
+            }
+
         }
 
     }
