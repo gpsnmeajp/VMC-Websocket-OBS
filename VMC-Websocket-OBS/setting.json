@@ -1,0 +1,7 @@
+{
+	"VMCProtocolPort": 39539,
+	"OBSWebSocketURI": "ws://127.0.0.1:4444",
+	"OBSWebSocketPassword": "",
+	"SceneOfCalibrationComplete": "Scene1",
+	"SceneOfCalibrationInProgress": "Scene2"
+}
