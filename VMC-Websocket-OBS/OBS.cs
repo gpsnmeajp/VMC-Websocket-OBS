@@ -10,16 +10,21 @@ namespace VMC_Websocket_OBS
 {
     class OBS
     {
+        //イベント打ち上げ用
+        public Action OnConnected = null;
+        public Action OnDisconnected = null;
+        public Action OnOBSExit = null;
+
         OBSWebsocket obsWebsocket = null;
 
         //Websocket接続
-        public void Start(string adr,string pass)
+        public void Start(string adr, string pass)
         {
             obsWebsocket = new OBSWebsocket();
 
             //コールバックをセット
             obsWebsocket.Connected += Connected;
-            obsWebsocket.Disconnected += Connected;
+            obsWebsocket.Disconnected += Disconnected;
             obsWebsocket.OBSExit += OBSExit;
 
             //タイムアウトをセット
@@ -32,42 +37,48 @@ namespace VMC_Websocket_OBS
         //Websocket切断
         public void Stop()
         {
-            obsWebsocket.Disconnect();
+            obsWebsocket?.Disconnect();
         }
 
-        public bool IsConnected()
+        //シーンをセットする
+        public void SetScene(string Scene)
         {
-            if (obsWebsocket != null)
-            {
-                if (obsWebsocket.WSConnection != null)
-                {
-                    return obsWebsocket.IsConnected;
-                }
-                else {
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
-        }
-
-        public void SetScene(string Scene) {
             obsWebsocket.SetCurrentScene(Scene);
         }
 
+        //イベントは上位に打ち上げる
         private void Connected(object obj, EventArgs arg)
         {
-            //当てにならない
-            //Console.WriteLine("Connected");
+            try
+            {
+                OnConnected?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("# Callback : " + e);
+            }
         }
-        private void Disonnected(object obj, EventArgs arg)
+        private void Disconnected(object obj, EventArgs arg)
         {
-            Console.WriteLine("Disonnected");
+            try
+            {
+                OnDisconnected?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("# Callback : " + e);
+            }
         }
         private void OBSExit(object obj, EventArgs arg)
         {
-            Console.WriteLine("OBSExit");
+            try
+            {
+                OnOBSExit?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("# Callback : " + e);
+            }
         }
     }
 }

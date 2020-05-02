@@ -10,7 +10,7 @@ namespace VMC_Websocket_OBS
     {
         static void Main(string[] args)
         {
-            new Main().Start();
+            new Main().Process();
         }
     }
 }

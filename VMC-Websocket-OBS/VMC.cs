@@ -10,15 +10,16 @@ namespace VMC_Websocket_OBS
 {
     class VMC
     {
+        //イベント打ち上げ用
+        public Action<OscMessage> OnMessage = null;
+
+        //受信処理用
         OscReceiver oscReceiver = null;
         Thread thread = null;
 
-        OBS obs;
         //受信待受開始
-        public void Start(int port, OBS obs)
+        public void Start(int port)
         {
-            this.obs = obs;
-
             //受信待受
             oscReceiver = new OscReceiver(port);
             oscReceiver.Connect();
@@ -34,9 +35,9 @@ namespace VMC_Websocket_OBS
         public void Stop()
         {
             //待受停止
-            oscReceiver.Close();
+            oscReceiver?.Close();
             //Thread終了を待機
-            thread.Join();
+            thread?.Join();
         }
 
         //受信Thread
@@ -61,7 +62,11 @@ namespace VMC_Websocket_OBS
 
             }
             catch (Exception e) {
-                Console.WriteLine("# ReceiveThread : " + e);
+                //ソケットが閉じられた例外のときは無視する
+                if (e.Message != "The receiver socket has been disconnected")
+                {
+                    Console.WriteLine("# ReceiveThread : " + e);
+                }
             }
         }
         //パケットを処理して、bundleとMessageに振り分け
@@ -101,32 +106,17 @@ namespace VMC_Websocket_OBS
             }
         }
         //Messageを処理
-        int old_calibration_state = -1;
         private void ProcessMessage(OscMessage message)
         {
             //Console.WriteLine("ProcessMessage : " + message);
-            if (message.Address == "/VMC/Ext/OK") {
-                if (message.Count >= 3 && message[1] is int)
-                {
-                    int calibration_state = (int)message[1];
-                    if (old_calibration_state != calibration_state) {
-                        Console.WriteLine("# calibration_state changed " + old_calibration_state + "->" + calibration_state);
-                        old_calibration_state = calibration_state;
-                        if (calibration_state == 3)
-                        {
-                            Console.WriteLine("Scene1");
-                            obs.SetScene("Scene1");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Scene2");
-                            obs.SetScene("Scene2");
-                        }
-                    }
-                }
+            try
+            {
+                OnMessage?.Invoke(message);
             }
-
+            catch (Exception e)
+            {
+                Console.WriteLine("# Callback : " + e);
+            }
         }
-
     }
 }
