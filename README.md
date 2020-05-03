@@ -7,6 +7,9 @@ Websocketを用いてOBSを制御するソフトウェア
 動作イメージの動画  
 https://twitter.com/Seg_Faul/status/1256545824185573376?s=20
 
+[VMC Protocol対応](https://sh-akira.github.io/VirtualMotionCaptureProtocol/)  
+<img src="https://github.com/gpsnmeajp/VMC-Websocket-OBS/blob/README-img/vmpc_logo_128x128.png?raw=true"></img>
+
 ## 現在利用可能な機能
 - キャリブレーションを開始した際と完了時にOBSのシーンを切り替える(Tポーズ写り対策)
 
