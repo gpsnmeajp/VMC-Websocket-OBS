@@ -36,3 +36,5 @@ https://twitter.com/Seg_Faul/status/1256545824185573376?s=20
 	"SceneOfCalibrationInProgress": "Scene2"
 }
 ```
+
+# [お問合せ先(Discordサーバー)](https://discord.gg/nGapSR7)
